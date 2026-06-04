@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wielka Kula 3D - Poprawiony Dźwięk iOS</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle, #252535, #0c0c12);
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .kula-btn {
+            width: 280px;
+            height: 280px;
+            font-size: 36px;
+            font-weight: bold;
+            color: #ffffff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            outline: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+            
+            /* Wygląd kuli 3D */
+            background: radial-gradient(circle at 80px 80px, #ff416c, #ff4b2b, #880000);
+            
+            box-shadow: 
+                0 30px 50px rgba(0, 0, 0, 0.7),
+                inset -20px -20px 40px rgba(0, 0, 0, 0.8),
+                inset 15px 15px 30px rgba(255, 255, 255, 0.5);
+                
+            transition: transform 0.05s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Wciśnięcie kuli */
+        .kula-btn:active {
+            transform: scale(0.92) translateY(5px);
+        }
+    </style>
+</head>
+<body>
+
+    <button class="kula-btn" id="button-kula">BUM!</button>
+
+    <audio id="click-sound" preload="auto" playsinline>
+        <source src="data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAAAnACcAJwAn" type="audio/wav">
+    </audio>
+
+    <script>
+        const przycisk = document.getElementById('button-kula');
+        const dzwiek = document.getElementById('click-sound');
+
+        // Funkcja odtwarzająca dźwięk
+        function odtworz() {
+            // Wymuszamy start od zera
+            dzwiek.currentTime = 0;
+            dzwiek.volume = 1.0;
+            
+            // Odpalenie dźwięku bezpośrednio w reakcji na palec użytkownika
+            dzwiek.play().catch(error => {
+                console.log("iOS zablokował dźwięk:", error);
+            });
+        }
+
+        // Reakcja na dotyk ekranu (najważniejsza dla iPhone)
+        przycisk.addEventListener('touchstart', function(e) {
+            e.preventDefault(); // Blokuje domyślne zachowanie Safari
+            odtworz();
+        });
+
+        // Reakcja na kliknięcie myszką (dla komputerów)
+        przycisk.addEventListener('mousedown', function(e) {
+            odtworz();
+        });
+    </script>
+
+</body>
+</html>
