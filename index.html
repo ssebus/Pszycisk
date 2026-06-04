@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wielka Kula 3D - Zawsze Działa</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle, #252535, #0c0c12);
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        .kula-btn {
+            width: 280px;
+            height: 280px;
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffffff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            outline: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+            
+            /* Efekt kuli 3D */
+            background: radial-gradient(circle at 80px 80px, #ff6b8b, #ff003c, #990024);
+            
+            /* Cienie dające trójwymiarowość */
+            box-shadow: 
+                0 30px 50px rgba(0, 0, 0, 0.7),
+                inset -20px -20px 40px rgba(0, 0, 0, 0.6),
+                inset 15px 15px 30px rgba(255, 255, 255, 0.4);
+                
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+        }
+
+        /* Podświetlenie po najechaniu */
+        .kula-btn:hover {
+            transform: scale(1.02);
+            background: radial-gradient(circle at 80px 80px, #ff8da7, #ff1a53, #b3002d);
+        }
+
+        /* Kliknięcie - wciśnięcie kuli */
+        .kula-btn:active {
+            transform: scale(0.95) translateY(5px);
+            box-shadow: 
+                0 15px 25px rgba(0, 0, 0, 0.6),
+                inset -10px -10px 20px rgba(0, 0, 0, 0.7),
+                inset 10px 10px 20px rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <button class="kula-btn" onclick="odtworzDzwiek()">KLIK!</button>
+
+    <script>
+        // Dźwięk wklejony bezpośrednio jako tekst (Base64 WAV) - działa offline!
+        const dzwiekBase64 = "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAAAnACcAJwAn";
+
+        function odtworzDzwiek() {
+            // Tworzymy element audio w locie, żeby ominąć blokady przeglądarek
+            const audio = new Audio(dzwiekBase64);
